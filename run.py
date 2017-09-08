@@ -34,6 +34,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         post_body = self.rfile.read(content_len)
         print(post_body)
         post_body = parse_qs(post_body)
+        print(post_body)
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         document = Document('manual.txt')
