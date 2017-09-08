@@ -21,7 +21,7 @@ class Document:
         for key in self.file.keys():
             if query.lower() in key.lower():
                 found_page = self.file[key]
-                return (key, found_page)
+                return (key, '\n'.join(found_page))
         return None
 
 class RequestHandler(BaseHTTPRequestHandler):
