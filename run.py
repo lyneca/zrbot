@@ -25,6 +25,18 @@ class Document:
         return None
 
 class RequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if '/oauth' not in self.path:
+            return
+        qs = parse_qs(self.path.split('?')[-1])
+        oauth_access = {
+            'client_id': 224994577766.237977358084,
+            'client_secret': os.environ.get('CLIENT_SECRET'),
+            'code': qs['code'][0]
+        }
+        requests.get('https://slack.com/api/oauth_access', params=oauth_access)
+        
+
     def do_POST(self):
         print('Request from %s:%s' % self.client_address)
         content_len = int(self.headers.get('content-length'))
