@@ -1,9 +1,10 @@
 import string
+import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import loads, dumps
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
-    server_address = ('', 8800)
+    server_address = ('', int(os.environ.get('PORT')))
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
 
