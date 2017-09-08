@@ -31,7 +31,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         print('Request from %s:%s' % self.client_address)
         content_len = int(self.headers.get('content-length'))
-        post_body = self.rfile.read(content_len)
+        post_body = self.rfile.read(content_len).decode()
         print(post_body)
         post_body = parse_qs(post_body)
         print(post_body)
