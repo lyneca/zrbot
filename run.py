@@ -46,9 +46,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         response_dict = {
             'response_type': 'in_channel',
             'text': main_text,
-            'attachments': {
+            'attachments': [{
                 'text': attachment
-            }
+            }]
         }
         self.end_headers()
         self.wfile.write(dumps(response_dict).encode('utf-8'))
