@@ -2,6 +2,7 @@ import string
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import loads, dumps
+from urllib.parse import parse_qs
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
     server_address = ('', int(os.environ.get('PORT')))
@@ -32,11 +33,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         content_len = int(self.headers.get('content-length'))
         post_body = self.rfile.read(content_len)
         print(post_body)
-        post_body = loads(post_body)
+        post_body = parse_qs(post_body)
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         document = Document('manual.txt')
-        found = document.find_page(post_body['text'])
+        found = document.find_page(post_body['text'][0])
         main_text = 'Search query not found.'
         attachment = ''
 
