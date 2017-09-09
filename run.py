@@ -36,9 +36,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             'client_secret': os.environ.get('CLIENT_SECRET'),
             'code': qs['code'][0]
         }
-        r = requests.post('https://slack.com/api/oauth_access', data=oauth_access)
+        r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
         print(r.status_code)
-        print(r.content)
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b'Success!')
