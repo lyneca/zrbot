@@ -68,7 +68,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             main_text = "Found a result in section %s:" % found[0]
             attachment = found[1]
 
-        if lower(post_body['text'][0]) == 'list':
+        if post_body['text'][0].lower() == 'list':
             main_text = "Here are all the topics I can tell you about:"
             attachment = '\n'.join(sorted(list(document.file.keys())))
 
