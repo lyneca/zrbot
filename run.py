@@ -75,7 +75,11 @@ class RequestHandler(BaseHTTPRequestHandler):
             attachment = found[1]
 
         if post_body['text'][0].lower() == 'help':
-            main_text = "Here are the things I can do:"
+            main_text = '\n'.join([
+                "Use me to search the manual for you.",
+                "If you get a timeout error when using me, try it again - I'm probably just booting up.",
+                "Here are the things I can do:"
+            ])
             attachment = '\n'.join(bot_help)
         if post_body['text'][0].lower() == 'list':
             main_text = "Here are all the topics I can tell you about:"
