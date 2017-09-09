@@ -27,6 +27,9 @@ class Document:
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        if 'robots.txt' in self.path:
+            self.send_response(200)
+            self.end_headers()
         if '/oauth' not in self.path:
             return
         print('got oauth request')
@@ -38,6 +41,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         }
         r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
         print(r.status_code)
+        print(r.content)
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b'Success!')
