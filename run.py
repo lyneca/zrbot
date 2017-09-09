@@ -85,7 +85,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             'response_type': 'in_channel',
             'text': main_text,
             'attachments': [{
-                'text': attachment
+                'text': attachment,
+                'mrkdwn': True
             }]
         }
         self.end_headers()
