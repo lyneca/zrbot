@@ -39,6 +39,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         print(qs['code'])
         r = requests.get('https://slack.com/api/oauth_access', params=oauth_access)
         print(r.content)
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write('Success!')
         
 
     def do_POST(self):
