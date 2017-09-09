@@ -10,6 +10,12 @@ def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
 
+bot_help = [
+    '`/manual [topic]`: Look up a topic in the ZR manual.',
+    '`/manual list`: List all the topic in the manual.',
+    '`/manual help`: Display this help message.'
+]
+
 class Document:
     def __init__(self, filename):
         with open(filename) as f:
@@ -68,6 +74,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             main_text = "Found a result in section %s:" % found[0]
             attachment = found[1]
 
+        if post_body['text'][0].lower() == 'help':
+            main_text = "Here are the things I can do:"
+            attachment = '\n'.join(bot_help)
         if post_body['text'][0].lower() == 'list':
             main_text = "Here are all the topics I can tell you about:"
             attachment = '\n'.join(sorted(list(document.file.keys())))
