@@ -35,7 +35,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         print('got oauth request')
         qs = parse_qs(self.path.split('?')[-1])
         oauth_access = {
-            'client_id': 224994577766.237977358084,
+            'client_id': '224994577766.237977358084',
             'client_secret': os.environ.get('CLIENT_SECRET'),
             'code': qs['code'][0]
         }
