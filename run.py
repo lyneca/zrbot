@@ -56,6 +56,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         print(post_body)
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
+        if 'text' not in post_body:
+            self.end_headers()
+            self.wfile.write('You need to send a request the same way that Slack does!')
         document = Document('manual.py')
         found = document.find_page(post_body['text'][0])
         main_text = 'Search query not found.'
