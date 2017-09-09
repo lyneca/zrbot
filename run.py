@@ -37,7 +37,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             'code': qs['code'][0]
         }
         print(qs['code'])
-        r = requests.get('https://slack.com/api/oauth_access', params=oauth_access)
+        r = requests.post('https://slack.com/api/oauth_access', data=oauth_access)
         print(r.url)
         self.send_response(200)
         self.end_headers()
