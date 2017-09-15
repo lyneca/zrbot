@@ -1,0 +1,2 @@
+# Thanks!
+Enjoy your bot!
