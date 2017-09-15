@@ -44,7 +44,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             'client_id': '224994577766.237977358084',
             'client_secret': os.environ.get('CLIENT_SECRET'),
             'code': qs['code'][0],
-            'redirect_uri': 'https://lyneca.github.io/zrbot/'
+            'redirect_uri': 'https://lyneca.github.io/zrbot/thanks'
         }
         r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
         print(r.status_code)
