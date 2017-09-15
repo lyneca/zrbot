@@ -25,7 +25,7 @@ class Document:
         return ''.join([x for x in s if x not in string.punctuation])
 
     def find_page(self, query):
-        for key in self.file.keys():
+        for key in sorted(list(self.file.keys())):
             if query.lower() in key.lower():
                 found_page = self.file[key]
                 return (key, '\n'.join(found_page))
@@ -79,6 +79,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 "Use me to search the manual for you.",
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
                 "Need help? Want to know how it works? Ask your mentor to contact Luke (or email me at lukemtuthill@gmail.com)",
+                "Or visit https://lyneca.github.io/zrbot",
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
