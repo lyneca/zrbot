@@ -78,6 +78,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             main_text = '\n'.join([
                 "Use me to search the manual for you.",
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
+                "Need help? Want to know how it works? Ask your mentor to contact Luke (or email me at lukemtuthill@gmail.com)",
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
