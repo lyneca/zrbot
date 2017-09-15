@@ -43,7 +43,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         oauth_access = {
             'client_id': '224994577766.237977358084',
             'client_secret': os.environ.get('CLIENT_SECRET'),
-            'code': qs['code'][0]
+            'code': qs['code'][0],
+            'redirect_uri': 'https://lyneca.github.io/zrbot/'
         }
         r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
         print(r.status_code)
@@ -52,7 +53,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'Success!')
         
-
     def do_POST(self):
         print('Request from %s:%s' % self.client_address)
         content_len = int(self.headers.get('content-length'))
