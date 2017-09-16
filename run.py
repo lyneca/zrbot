@@ -17,9 +17,20 @@ bot_help = [
 ]
 
 class Document:
-    def __init__(self, filename):
-        with open(filename) as f:
-            self.file = eval(f.read())
+    '''
+    Abstract Base Class for documents. Do not instance.
+    '''
+    def __init__(self, f):
+        self.filename = f
+        self.file = {}
+
+    def to_dict(self):
+        '''
+        The only method you should need to implement for subclasses.
+        Sets the `self.file` property to a dictionary mapping
+        topics to lists of lines for that topic.
+        '''
+        pass
 
     def remove_punc(self, s):
         return ''.join([x for x in s if x not in string.punctuation])
@@ -30,6 +41,17 @@ class Document:
                 found_page = self.file[key]
                 return (key, '\n'.join(found_page))
         return None
+
+class JSONDocument(Document):
+    def to_dict(self):
+        self.file = json.load(self.filename)
+
+
+class PythonDocument(Document):
+    def to_dict(self):
+        with open(self.filename) as f:
+            # Totally secure
+            self.file = eval(f)
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -46,25 +68,23 @@ class RequestHandler(BaseHTTPRequestHandler):
             'code': qs['code'][0]
         }
         r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
-        print(r.status_code)
-        print(r.content)
         self.send_response(301)
         self.send_header('Location', 'https://lyneca.github.io/zrbot/thanks')
         self.end_headers()
-        
+
     def do_POST(self):
+        # Should just be POSTs from Slack with commands
         print('Request from %s:%s' % self.client_address)
         content_len = int(self.headers.get('content-length'))
         post_body = self.rfile.read(content_len).decode()
-        print(post_body)
         post_body = parse_qs(post_body)
-        print(post_body)
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         if 'text' not in post_body:
             self.end_headers()
             self.wfile.write('You need to send a request the same way that Slack does!')
-        document = Document('manual.py')
+        print("{user_name} from team {team_domain} in channel {channel_name} sent '{text}'".format(**post_body))
+        document = JSONDocument('data/manual.json')
         found = document.find_page(post_body['text'][0])
         main_text = 'Search query not found.'
         attachment = ''
@@ -82,6 +102,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
+
         if post_body['text'][0].lower() == 'list':
             main_text = "Here are all the topics I can tell you about:"
             attachment = '\n'.join(sorted(list(document.file.keys())))
