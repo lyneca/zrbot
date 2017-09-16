@@ -23,6 +23,7 @@ class Document:
     def __init__(self, f):
         self.filename = f
         self.file = {}
+        self.to_dict()
 
     def to_dict(self):
         '''
@@ -44,7 +45,8 @@ class Document:
 
 class JSONDocument(Document):
     def to_dict(self):
-        self.file = load(self.filename)
+        with open(self.filename) as f:
+            self.file = load(f)
 
 
 class PythonDocument(Document):
