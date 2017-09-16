@@ -62,8 +62,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
         if '/oauth' not in self.path:
             return
-        print('got oauth request')
         qs = parse_qs(self.path.split('?')[-1])
+        print('Team {team_name} added this bot to slack'.format(**qs))
         oauth_access = {
             'client_id': '224994577766.237977358084',
             'client_secret': os.environ.get('CLIENT_SECRET'),
@@ -76,10 +76,12 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         # Should just be POSTs from Slack with commands
-        print('Request from %s:%s' % self.client_address)
         content_len = int(self.headers.get('content-length'))
         post_body = self.rfile.read(content_len).decode()
         post_body = parse_qs(post_body)
+        for key in post_body:
+            if type(post_body[key]) == list and len(post_body[key]) == 1:
+                post_body[key] = post_body[key][0]
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         if 'text' not in post_body:
@@ -87,7 +89,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.wfile.write('You need to send a request the same way that Slack does!')
         print("{user_name} from team {team_domain} in channel {channel_name} sent '{text}'".format(**post_body))
         document = JSONDocument('data/manual.json')
-        found = document.find_page(post_body['text'][0])
+        found = document.find_page(post_body['text'])
         main_text = 'Search query not found.'
         attachment = ''
 
