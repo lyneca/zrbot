@@ -1,5 +1,4 @@
 # ZR Manual Search Slack Bot
-[lyneca.github.io/zrbot](https://lyneca.github.io/zrbot)  
 A slack command bot that searches the Zero Robotics Game Manual
 
 ## Installation
