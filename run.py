@@ -2,7 +2,7 @@ import string
 import requests
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from json import loads, dumps
+from json import loads, dumps, load, dump
 from urllib.parse import parse_qs
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
@@ -44,7 +44,7 @@ class Document:
 
 class JSONDocument(Document):
     def to_dict(self):
-        self.file = json.load(self.filename)
+        self.file = load(self.filename)
 
 
 class PythonDocument(Document):
