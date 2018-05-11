@@ -134,7 +134,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
                 "Need help? Want to know how it works? Email lukemtuthill@gmail.com,",
                 "or visit https://lyneca.github.io/zrbot.",
-                "Manual version: *2018 Virtual Australian Comp* _(updated 11/5/2018)_"
+                "Manual version: *2018 Virtual Australian Comp* _(updated 11/5/2018)_",
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
