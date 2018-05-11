@@ -99,7 +99,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             main_text = "Found a result in section %s:" % found[0]
             attachment = found[1]
 
-        if post_body['text'][0].lower() == 'help':
+        if post_body['text'].lower() == 'help':
             main_text = '\n'.join([
                 "Use me to search the manual for you.",
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
