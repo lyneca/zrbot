@@ -89,7 +89,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         if 'text' not in post_body:
             self.end_headers()
             self.wfile.write('You need to send a request the same way that Slack does!')
-        print("{team_domain}#{channel_name}@{user_id}: {command} {text}".format(**post_body))
+        print("{team_domain}#{channel_name}@{user_id}: {command} \"{text}\"".format(**post_body))
         document = JSONDocument('data/' + MANUAL_JSON_FILE)
         found = document.find_page(post_body['text'])
         main_text = 'Search query not found.'
@@ -104,7 +104,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 "Use me to search the manual for you.",
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
                 "Need help? Want to know how it works? Ask your mentor to contact Luke (or email me at lukemtuthill@gmail.com)",
-                "Or visit https://lyneca.github.io/zrbot",
+                "or visit https://lyneca.github.io/zrbot",
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
