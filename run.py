@@ -5,6 +5,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import loads, dumps, load, dump
 from urllib.parse import parse_qs
 
+MANUAL_JSON_FILE = 'manual_australian_2018.json'
+
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
     server_address = ('', int(os.environ.get('PORT')))
     httpd = server_class(server_address, handler_class)
@@ -88,7 +90,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write('You need to send a request the same way that Slack does!')
         print("{team_domain}#{channel_name}@{user_id}: {command} {text}".format(**post_body))
-        document = JSONDocument('data/manual.json')
+        document = JSONDocument('data/' + MANUAL_JSON_FILE)
         found = document.find_page(post_body['text'])
         main_text = 'Search query not found.'
         attachment = ''
