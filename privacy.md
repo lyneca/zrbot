@@ -1,6 +1,6 @@
 # Privacy Policy for Zero Robotics Australia
 
-At Zero Robotics Manual Search Bot, accessible from https://lyneca.github.io/zrbot/,
+At Zero Robotics Manual Search Bot, accessible from [https://lyneca.github.io/zrbot/](https://lyneca.github.io/zrbot/),
 one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Zero Robotics Manual Search Bot and how we use it.
 
 If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at lukemtuthill@gmail.com
