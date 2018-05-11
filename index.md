@@ -22,3 +22,5 @@ If you get timeout errors, just try the command again and it should work.
 This bot is a Slack command bot. It is _only_ sent the words that you use after the command.
 For example, if you send `/zr-manual fuel`, the server will only be sent the word `fuel`, along with 
 some metadata about the team name and the username who used the command. No other information is sent.
+
+A full privacy policy can be found [here](https://lyneca.github.io/zrbot/privacy).
