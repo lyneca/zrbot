@@ -99,17 +99,17 @@ class RequestHandler(BaseHTTPRequestHandler):
             main_text = "Found a result in section %s:" % found[0]
             attachment = found[1]
 
+        print(post_body['text'].lower())
         if post_body['text'].lower() == 'help':
             main_text = '\n'.join([
                 "Use me to search the manual for you.",
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
-                "Need help? Want to know how it works? Ask your mentor to contact Luke (or email me at lukemtuthill@gmail.com)",
-                "or visit https://lyneca.github.io/zrbot",
+                "Need help? Want to know how it works? Email lukemtuthill@gmail.com,",
+                "or visit https://lyneca.github.io/zrbot.",
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
-
-        if post_body['text'][0].lower() == 'list':
+        elif post_body['text'].lower() == 'list':
             main_text = "Here are all the topics I can tell you about:"
             attachment = '\n'.join(sorted(list(document.file.keys())))
 
@@ -123,7 +123,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         }
         self.end_headers()
         self.wfile.write(dumps(response_dict).encode('utf-8'))
-        return
 
 if __name__ == '__main__':
     run(HTTPServer, RequestHandler)
