@@ -19,20 +19,20 @@ bot_help = [
 ]
 
 class Document:
-    '''
+    """
     Abstract Base Class for documents. Do not instance.
-    '''
-    def __init__(self, f):
-        self.filename = f
+    """
+    def __init__(self, filename):
+        self.filename = filename
         self.file = {}
         self.to_dict()
 
     def to_dict(self):
-        '''
+        """
         The only method you should need to implement for subclasses.
         Sets the `self.file` property to a dictionary mapping
         topics to lists of lines for that topic.
-        '''
+        """
         pass
 
     def remove_punc(self, s):
@@ -46,12 +46,41 @@ class Document:
         return None
 
 class JSONDocument(Document):
+    """
+    Reads a data file written in JSON.
+
+    The format of the file should be as follows:
+    ```
+    {
+        "1.1.1 Section Title I": [
+            "Paragraph",
+            "Paragraph",
+            "Paragraph",
+            "Paragraph",
+            "Paragraph"
+        ],
+        "1.1.2 Section Title II": [
+            "Paragraph",
+            "Paragraph",
+            "Paragraph",
+            "Paragraph",
+            "Paragraph"
+        ]
+    }
+    ```
+    """
     def to_dict(self):
         with open(self.filename) as f:
             self.file = load(f)
 
 
 class PythonDocument(Document):
+    """
+    Reads a data file written in a Python Dict.
+
+    Extremely vulnerable to pretty much any form of remote code execution.
+    Do not use.
+    """
     def to_dict(self):
         with open(self.filename) as f:
             # Totally secure
@@ -71,7 +100,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             'client_secret': os.environ.get('CLIENT_SECRET'),
             'code': qs['code'][0]
         }
-        r = requests.post('https://slack.com/api/oauth.access', data=oauth_access)
+        requests.post('https://slack.com/api/oauth.access', data=oauth_access)
         self.send_response(301)
         self.send_header('Location', 'https://lyneca.github.io/zrbot/thanks')
         self.end_headers()
@@ -105,6 +134,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 "If you get a timeout error when using me, try it again - I'm probably just booting up.",
                 "Need help? Want to know how it works? Email lukemtuthill@gmail.com,",
                 "or visit https://lyneca.github.io/zrbot.",
+                "Manual version: *2018 Virtual Australian Comp* _(updated 11/5/2018)_"
                 "Here are the things I can do:"
             ])
             attachment = '\n'.join(bot_help)
