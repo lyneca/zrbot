@@ -39,6 +39,7 @@ class Document:
         return ''.join([x for x in s if x not in string.punctuation])
 
     def find_page(self, query):
+        print(sorted(list(self.file.keys()), key=lambda x: (len(x.split()[0]), x)))
         for key in sorted(list(self.file.keys())):
             if query.lower() in key.lower():
                 found_page = self.file[key]
