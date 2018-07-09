@@ -21,7 +21,13 @@ Topics are searchable by section number and by title.
 
 The bot is [currently] hosted on a Heroku free dyno.
 This means that if there is no activity after half an hour, the dyno will go to sleep.
-If you get timeout errors, just try the command again and it should work.
+If you get timeout errors, or if the bot doesn't seem to do anything,
+just try the command again and it should work.
+
+## Issues
+
+Have a problem? [Add an issue on Github](https://github.com/lyneca/zrbot/issues/new), or
+email me at <lukemtuthill@gmail.com>.
 
 ## Privacy
 
