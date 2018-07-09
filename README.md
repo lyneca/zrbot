@@ -5,13 +5,13 @@ A slack command bot that searches the Zero Robotics Game Manual
 Click the Add to Slack button above!
 
 ## Usage
-- `/zr-manual help` for help
-- `/zr-manual list` to list topics
-- `/zr-manual [topic]` to search for a topic
+- `/manual help` for help
+- `/manual list` to list topics
+- `/manual [topic]` to search for a topic
 
 ### Topics
 Topics are searchable by section number and by title.  
-`/zr-manual list` lists all topics that are searchable.
+`/manual list` lists all topics that are searchable.
 
 ### Timeouts
 The bot is [currently] hosted on a Heroku free dyno.
@@ -20,5 +20,5 @@ If you get timeout errors, just try the command again and it should work.
 
 ## Privacy
 This bot is a Slack command bot. It is _only_ sent the words that you use after the command.
-For example, if you send `/zr-manual fuel`, the server will only be sent the word `fuel`, along with 
+For example, if you send `/manual fuel`, the server will only be sent the word `fuel`, along with 
 some metadata about the team name and the username who used the command. No other information is sent.

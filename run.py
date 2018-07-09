@@ -96,7 +96,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         qs = parse_qs(self.path.split('?')[-1])
         print('team subscribed'.format(**qs))
         oauth_access = {
-            'client_id': '224994577766.237977358084',
+            'client_id': '395118514789.394280839600',
             'client_secret': os.environ.get('CLIENT_SECRET'),
             'code': qs['code'][0]
         }
