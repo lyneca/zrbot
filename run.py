@@ -90,6 +90,11 @@ class PythonDocument(Document):
             # Totally secure
             self.file = eval(f)
 
+def sha256_encode(msg=None):
+    if msg == None:
+        return hashlib.sha256()
+    return hashlib.sha256(msg.encode())
+
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if 'robots.txt' in self.path:
@@ -116,14 +121,15 @@ class RequestHandler(BaseHTTPRequestHandler):
         slack_signing_secret = os.environ.get('SLACK_SIGNING_SECRET').encode()
         timestamp = self.headers.get('X-Slack-Request-Timestamp')
         if abs(time.time() - float(timestamp)) > 60 * 5:
+            print("Timestamp off")
             return
-        sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw).encode()
+        sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw)
         my_signature = 'v0=' + hmac.new(
             slack_signing_secret,
-            sig_basestring,
-            hashlib.sha256
-        ).hexdigest().encode()
-        slack_signature = self.headers.get('X-Slack-Signature').encode()
+            msg=sig_basestring.encode(),
+            digestmod=hashlib.sha256
+        ).hexdigest()
+        slack_signature = self.headers.get('X-Slack-Signature')
         if not hmac.compare_digest(my_signature, slack_signature):
             print("Signature mismatch")
             return
