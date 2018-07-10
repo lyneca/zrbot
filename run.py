@@ -122,7 +122,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             slack_signing_secret,
             sig_basestring,
             hashlib.sha256
-        ).hexdigest()
+        ).hexdigest().encode()
         slack_signature = self.headers.get('X-Slack-Signature').encode()
         if not hmac.compare_digest(my_signature, slack_signature):
             print("Signature mismatch")
