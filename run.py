@@ -130,6 +130,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             digestmod=hashlib.sha256
         ).hexdigest()
         slack_signature = self.headers.get('X-Slack-Signature')
+        print(slack_signature)
+        print(my_signature)
         if not hmac.compare_digest(my_signature, slack_signature):
             print("Signature mismatch")
             return
