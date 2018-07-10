@@ -117,7 +117,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         # Should just be POSTs from Slack with commands
         content_len = int(self.headers.get('content-length'))
-        post_body_raw = self.rfile.read(content_len)
+        post_body_raw = self.rfile.read(content_len).decode()
+        print("Body: \"" + post_body_raw + "\"")
         slack_signing_secret = os.environ.get('SLACK_SIGNING_SECRET').encode()
         timestamp = self.headers.get('X-Slack-Request-Timestamp')
         if abs(time.time() - float(timestamp)) > 60 * 5:
