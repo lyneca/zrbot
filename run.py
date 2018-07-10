@@ -117,7 +117,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         timestamp = self.headers.get('X-Slack-Request-Timestamp')
         if abs(time.time() - float(timestamp)) > 60 * 5:
             return
-        sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw)
+        sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw).encode()
         my_signature = 'v0=' + hmac.new(
             slack_signing_secret,
             sig_basestring,
