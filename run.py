@@ -118,11 +118,10 @@ class RequestHandler(BaseHTTPRequestHandler):
         # Should just be POSTs from Slack with commands
         content_len = int(self.headers.get('content-length'))
         post_body_raw = self.rfile.read(content_len).decode()
-        print("Body: \"" + post_body_raw + "\"")
         slack_signing_secret = os.environ.get('SLACK_SIGNING_SECRET').encode()
         timestamp = self.headers.get('X-Slack-Request-Timestamp')
         if abs(time.time() - float(timestamp)) > 60 * 5:
-            print("Timestamp off")
+            print("Timestamp incorrect")
             return
         sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw)
         my_signature = 'v0=' + hmac.new(
@@ -131,8 +130,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             digestmod=hashlib.sha256
         ).hexdigest()
         slack_signature = self.headers.get('X-Slack-Signature')
-        print(slack_signature)
-        print(my_signature)
         if not hmac.compare_digest(my_signature, slack_signature):
             print("Signature mismatch")
             return
