@@ -137,7 +137,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             print("Signature mismatch")
             return
 
-        post_body = parse_qs(post_body_raw.decode())
+        post_body = parse_qs(post_body_raw)
         for key in post_body:
             if type(post_body[key]) == list and len(post_body[key]) == 1:
                 post_body[key] = post_body[key][0]
