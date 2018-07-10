@@ -26,8 +26,7 @@ just try the command again and it should work.
 
 ## Issues
 
-Have a problem? [Add an issue on Github](https://github.com/lyneca/zrbot/issues/new), or
-email me at <lukemtuthill@gmail.com>.
+Have a problem? Email me at <lukemtuthill@gmail.com>, or you can [add an issue on Github](https://github.com/lyneca/zrbot/issues/new)
 
 ## Privacy
 
