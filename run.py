@@ -1,6 +1,10 @@
 import string
 import requests
 import os
+import time
+import hmac
+import hashlib
+
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import loads, dumps, load, dump
 from urllib.parse import parse_qs
@@ -86,6 +90,11 @@ class PythonDocument(Document):
             # Totally secure
             self.file = eval(f)
 
+def sha256_encode(msg=None):
+    if msg == None:
+        return hashlib.sha256()
+    return hashlib.sha256(msg.encode())
+
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if 'robots.txt' in self.path:
@@ -108,8 +117,24 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         # Should just be POSTs from Slack with commands
         content_len = int(self.headers.get('content-length'))
-        post_body = self.rfile.read(content_len).decode()
-        post_body = parse_qs(post_body)
+        post_body_raw = self.rfile.read(content_len).decode()
+        slack_signing_secret = os.environ.get('SLACK_SIGNING_SECRET').encode()
+        timestamp = self.headers.get('X-Slack-Request-Timestamp')
+        if abs(time.time() - float(timestamp)) > 60 * 5:
+            print("Timestamp incorrect")
+            return
+        sig_basestring = 'v0:{}:{}'.format(timestamp, post_body_raw)
+        my_signature = 'v0=' + hmac.new(
+            slack_signing_secret,
+            msg=sig_basestring.encode(),
+            digestmod=hashlib.sha256
+        ).hexdigest()
+        slack_signature = self.headers.get('X-Slack-Signature')
+        if not hmac.compare_digest(my_signature, slack_signature):
+            print("Signature mismatch")
+            return
+
+        post_body = parse_qs(post_body_raw)
         for key in post_body:
             if type(post_body[key]) == list and len(post_body[key]) == 1:
                 post_body[key] = post_body[key][0]
@@ -117,7 +142,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json')
         if 'text' not in post_body:
             self.end_headers()
-            self.wfile.write('You need to send a request the same way that Slack does!')
+            self.wfile.write(b'You need to send a request the same way that Slack does!')
         print("{team_domain}#{channel_name}@{user_id}: {command} \"{text}\"".format(**post_body))
         document = JSONDocument('data/' + MANUAL_JSON_FILE)
         found = document.find_page(post_body['text'])

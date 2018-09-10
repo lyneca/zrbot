@@ -1,5 +1,5 @@
 # ZR Manual Search Slack Bot
-A slack command bot that searches the Zero Robotics Game Manual
+A Slack command bot that searches the Zero Robotics Game Manual
 
 ## Installation
 Click the Add to Slack button above!
