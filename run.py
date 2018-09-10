@@ -5,7 +5,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from json import loads, dumps, load, dump
 from urllib.parse import parse_qs
 
-MANUAL_JSON_FILE = 'manual_australian_2018.json'
+MANUAL_JSON_FILE = 'manual_international_2018.json'
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
     server_address = ('', int(os.environ.get('PORT')))
